@@ -1,0 +1,2 @@
+# Ignore large dataset files that exceed GitHub's 100MB limit
+*.csv
