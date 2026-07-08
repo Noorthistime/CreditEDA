@@ -1,2 +1,1 @@
-# Ignore large dataset files that exceed GitHub's 100MB limit
-*.csv
+# Gitignore modified to allow downsampled CSV files for hosting
