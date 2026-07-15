@@ -424,6 +424,63 @@ st.markdown("""
         letter-spacing: 0.5px !important;
     }
 
+    /* --- Mobile Responsiveness --- */
+    @media screen and (max-width: 768px) {
+        .stApp::before, .stApp::after {
+            display: none !important;
+        }
+        
+        .main .block-container {
+            padding: 1rem 0.5rem !important;
+        }
+
+        .premium-hero {
+            margin: -20px 0 15px 0 !important;
+            padding: 15px 12px;
+        }
+
+        .premium-hero h1 {
+            font-size: 1.5rem !important;
+        }
+
+        .tech-tooltip-box {
+            width: 260px !important;
+        }
+
+        [data-testid="column"] {
+            padding: 12px !important;
+        }
+        
+        /* Adjust layout for Markdown containers with heavy padding */
+        div[style*="padding: 24px"] {
+            padding: 16px !important;
+        }
+        div[style*="padding: 20px"] {
+            padding: 14px !important;
+        }
+        div[style*="padding: 14px 18px"] {
+            padding: 12px !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+        }
+        
+        /* Metrics ribbon dividers */
+        div[style*="border-left: 1px solid rgba(255, 255, 255, 0.1)"] {
+            display: none !important;
+        }
+        
+        /* Metrics ribbon flex */
+        div[style*="justify-content: space-around"] {
+            flex-direction: column !important;
+            gap: 20px !important;
+            padding: 20px !important;
+        }
+        
+        div[data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label {
+            padding: 10px !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
