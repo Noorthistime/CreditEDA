@@ -505,10 +505,13 @@ menu = st.sidebar.radio("Go to", ["Project Overview", "1. Data Cleaning & Binnin
 
 @st.cache_resource
 def load_and_clean_data():
-    # Allow reading from parent directory if not in the current directory (helpful during dev)
-    file_path = "application_data.csv"
+    # Allow reading from parent or data directory if not in the current directory
+    file_path = "data/application_data.csv"
     if not os.path.exists(file_path):
-        file_path = "../application_data.csv"
+        if os.path.exists("application_data.csv"):
+            file_path = "application_data.csv"
+        else:
+            file_path = "../application_data.csv"
         
     app_data = pd.read_csv(file_path)
     
@@ -547,7 +550,9 @@ def load_and_clean_data():
 def get_prev():
     import os
     try:
-        if os.path.exists("previous_application.csv"):
+        if os.path.exists("data/previous_application.csv"):
+            return pd.read_csv("data/previous_application.csv")
+        elif os.path.exists("previous_application.csv"):
             return pd.read_csv("previous_application.csv")
         elif os.path.exists("../previous_application.csv"):
             return pd.read_csv("../previous_application.csv")
@@ -929,13 +934,17 @@ elif menu == "5. View Raw Source Code":
     st.subheader("Raw Source Code (Doc3Credit.py)")
     st.info("Here is the complete, original source code for this project.")
     try:
-        with open("Doc3Credit.py", "r", encoding="utf-8") as f:
+        with open("src/Doc3Credit.py", "r", encoding="utf-8") as f:
             st.code(f.read(), language="python")
     except FileNotFoundError:
         try:
-            with open("../Doc3Credit.py", "r", encoding="utf-8") as f:
+            with open("Doc3Credit.py", "r", encoding="utf-8") as f:
                 st.code(f.read(), language="python")
         except FileNotFoundError:
-            st.error("Original code file not found.")
+            try:
+                with open("../Doc3Credit.py", "r", encoding="utf-8") as f:
+                    st.code(f.read(), language="python")
+            except FileNotFoundError:
+                st.error("Original code file not found.")
     render_explain_button("raw_source", "This page showcases the original raw scripting <span class='tech-hover-container'><span class='glow-tech'>codebase</span><span class='tech-tooltip-box'><strong>Codebase</strong>The complete collection of computer source files, logic routines, and configurations that make up a software program.</span></span>, detailing the sequence of <span class='tech-hover-container'><span class='glow-tech'>exploratory calculations</span><span class='tech-tooltip-box'><strong>Exploratory Calculations</strong>Initial mathematical operations used to examine data distributions, outliers, and basic statistics before model training.</span></span>, heatmaps, and <span class='tech-hover-container'><span class='glow-tech'>merging steps</span><span class='tech-tooltip-box'><strong>Merging Steps</strong>Database join operations that combine separate datasets (e.g. current client details and previous loans) using shared primary keys.</span></span> executed.")
 
