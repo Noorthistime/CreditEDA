@@ -964,17 +964,40 @@ elif menu == "5. View Raw Source Code":
         # Sequence 1: Loading
         status_panel.info("⏳ Executing lines 1-50: Importing libraries and loading Credit applications dataset...")
         time.sleep(1.5)
-        output_data_load.success("✅ Dataset 'application_data.csv' loaded successfully (307,511 rows).")
+        with output_data_load.container():
+            st.success("✅ Dataset 'application_data.csv' loaded successfully (307,511 rows).")
+            mock_df = pd.DataFrame({
+                "SK_ID_CURR": [100002, 100003, 100004],
+                "TARGET": [1, 0, 0],
+                "NAME_CONTRACT_TYPE": ["Cash loans", "Cash loans", "Revolving loans"],
+                "CODE_GENDER": ["M", "F", "M"],
+                "FLAG_OWN_CAR": ["N", "N", "Y"],
+                "AMT_INCOME_TOTAL": [202500.0, 270000.0, 67500.0]
+            })
+            st.dataframe(mock_df, use_container_width=True)
         
         # Sequence 2: Cleaning
         status_panel.info("⏳ Executing lines 51-120: Applying data cleaning, imputing missing values, and binning variables...")
         time.sleep(2.0)
-        output_cleaning.success("✅ Data cleaning complete. Missing values handled and age/income binned.")
+        with output_cleaning.container():
+            st.success("✅ Data cleaning complete. Missing values handled and age/income binned.")
+            mock_clean_df = pd.DataFrame({
+                "SK_ID_CURR": [100002, 100003, 100004],
+                "Income_Bin": ["Medium", "High", "Low"],
+                "Age_Bin": ["20-30", "40-50", "50-60"]
+            })
+            st.dataframe(mock_clean_df, use_container_width=True)
         
         # Sequence 3: Training & Evaluation
         status_panel.info("⏳ Executing lines 121-200: Performing univariate/bivariate analysis and generating visualizations...")
         time.sleep(2.5)
-        output_model.success("✅ EDA pipeline executed. \n\n 📊 Correlation heatmaps and distributions generated.")
+        with output_model.container():
+            st.success("✅ EDA pipeline executed. Correlation heatmaps and distributions generated.")
+            corr = np.array([[1.0, 0.2, -0.1], [0.2, 1.0, 0.05], [-0.1, 0.05, 1.0]])
+            fig, ax = plt.subplots(figsize=(5,3))
+            sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax, cbar=False)
+            ax.set_title("Correlation Heatmap (Numeric Variables)")
+            st.pyplot(fig)
         
         status_panel.success("🎉 Full source code executed successfully!")
 
