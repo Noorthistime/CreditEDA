@@ -8,6 +8,33 @@ import os
 
 st.set_page_config(page_title="Credit Exploratory Data Analysis", layout="wide")
 
+def get_hl_code(code_str):
+    import re
+    keywords = {'import', 'from', 'if', 'else', 'elif', 'for', 'while', 'def', 'class', 'return', 'and', 'or', 'not', 'in', 'is', 'try', 'except', 'with', 'as', 'pass', 'break', 'continue'}
+    builtins = {'print', 'len', 'range', 'int', 'float', 'str', 'list', 'dict', 'set', 'tuple', 'bool', 'True', 'False', 'None'}
+    methods = {'read_csv', 'map', 'copy', 'lower', 'sub', 'escape', 'split', 'join', 'stem', 'apply', 'fit', 'predict', 'transform', 'fit_transform', 'toarray', 'concat', 'lemmatize', 'DataFrame', 'subplots', 'heatmap', 'countplot', 'head', 'shape', 'drop', 'fillna', 'astype', 'isnull', 'sum', 'sort_values'}
+    
+    hl_lines = []
+    lines = code_str.strip('\n').split('\n')
+    for line in lines:
+        leading_whitespace = len(line) - len(line.lstrip())
+        words = re.split(r'(\W+)', line.lstrip())
+        
+        hl_words = []
+        for w in words:
+            if w in keywords:
+                hl_words.append(f'<span class="keyword">{w}</span>')
+            elif w in builtins or w in methods:
+                hl_words.append(f'<span class="builtin">{w}</span>')
+            else:
+                hl_words.append(w)
+                
+        hl_line = ('&nbsp;' * leading_whitespace) + ''.join(hl_words)
+        if not line.strip():
+            hl_line = '&nbsp;'
+        hl_lines.append(hl_line)
+    return '<br>'.join(hl_lines)
+
 
 if 'theme' not in st.session_state:
     st.session_state.theme = 'default'
@@ -996,7 +1023,7 @@ if menu != "Project Overview":
         <span style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px 18px; border-radius: 30px; color: #8a99ad; font-size: 0.85em; font-weight: 500; letter-spacing: 0.5px; display: inline-block; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);">
             {menu}
         </span>
-    </div>
+</div>
     """, unsafe_allow_html=True)
 
 if menu == "Project Overview":
@@ -1303,15 +1330,15 @@ elif menu == "4. Full Code Explorer":
             is_stitch_theme = st.session_state.get('theme', 'default') == 'stitch'
             brand_color = "255, 51, 102" if is_stitch_theme else "0, 194, 255"
             st.markdown(f"""
-            <div style="background: rgba({brand_color}, 0.15); 
+<div style="background: rgba({brand_color}, 0.15); 
                         border: 1px solid rgba({brand_color}, 0.4); 
                         padding: 16px 20px; 
                         border-radius: 14px; 
                         color: #fff; 
                         font-weight: 500;
                         box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                👈 Click a <b>'Run'</b> button on the left to see the output here!
-            </div>
+👈 Click a <b>'Run'</b> button on the left to see the output here!
+</div>
             """, unsafe_allow_html=True)
         else:
             phase_map = {
@@ -1414,18 +1441,48 @@ elif menu == "4. Full Code Explorer":
 
 elif menu == "5. View Raw Source Code":
     st.subheader("Raw Source Code (Doc3Credit.py)")
-    st.info("Here is the complete, original source code for this project.")
+    is_stitch_theme = st.session_state.get('theme', 'default') == 'stitch'
+
+    brand_color = "255, 51, 102" if is_stitch_theme else "0, 194, 255"
+
+    st.markdown(f"""
+
+<div style="background: rgba({brand_color}, 0.15); border: 1px solid rgba({brand_color}, 0.4); padding: 12px 18px; border-radius: 12px; color: #fff; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px;">
+
+Here is the complete, original source code for this project.
+
+</div>
+
+    """, unsafe_allow_html=True)
     try:
         with open("src/Doc3Credit.py", "r", encoding="utf-8") as f:
-            st.code(f.read(), language="python")
+            raw_code = f.read()
+
+            hl_code = get_hl_code(raw_code)
+
+            html_str = '''<div class="sentinel-terminal"><div class="sentinel-code-body">''' + hl_code + '''</div></div>'''
+
+            st.markdown(html_str, unsafe_allow_html=True)
     except FileNotFoundError:
         try:
             with open("Doc3Credit.py", "r", encoding="utf-8") as f:
-                st.code(f.read(), language="python")
+                raw_code = f.read()
+
+                hl_code = get_hl_code(raw_code)
+
+                html_str = '''<div class="sentinel-terminal"><div class="sentinel-code-body">''' + hl_code + '''</div></div>'''
+
+                st.markdown(html_str, unsafe_allow_html=True)
         except FileNotFoundError:
             try:
                 with open("../Doc3Credit.py", "r", encoding="utf-8") as f:
-                    st.code(f.read(), language="python")
+                    raw_code = f.read()
+
+                    hl_code = get_hl_code(raw_code)
+
+                    html_str = '''<div class="sentinel-terminal"><div class="sentinel-code-body">''' + hl_code + '''</div></div>'''
+
+                    st.markdown(html_str, unsafe_allow_html=True)
             except FileNotFoundError:
                 st.error("Original code file not found.")
     render_explain_button("raw_source", "This page showcases the original raw scripting <span class='tech-hover-container'><span class='glow-tech'>codebase</span><span class='tech-tooltip-box'><strong>Codebase</strong>The complete collection of computer source files, logic routines, and configurations that make up a software program.</span></span>, detailing the sequence of <span class='tech-hover-container'><span class='glow-tech'>exploratory calculations</span><span class='tech-tooltip-box'><strong>Exploratory Calculations</strong>Initial mathematical operations used to examine data distributions, outliers, and basic statistics before model training.</span></span>, heatmaps, and <span class='tech-hover-container'><span class='glow-tech'>merging steps</span><span class='tech-tooltip-box'><strong>Merging Steps</strong>Database join operations that combine separate datasets (e.g. current client details and previous loans) using shared primary keys.</span></span> executed.")
@@ -1444,7 +1501,19 @@ elif menu == "5. View Raw Source Code":
             status_panel = st.empty()
 
         # Sequence 1: Loading
-        status_panel.info("⏳ Executing lines 1-50: Importing libraries and loading Credit applications dataset...")
+        is_stitch_theme = st.session_state.get('theme', 'default') == 'stitch'
+
+        brand_color = "255, 51, 102" if is_stitch_theme else "0, 194, 255"
+
+        status_panel.markdown(f"""
+
+<div style="background: rgba({brand_color}, 0.15); border: 1px solid rgba({brand_color}, 0.4); padding: 12px 18px; border-radius: 12px; color: #fff; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px;">
+
+⏳ Executing lines 1-50: Importing libraries and loading Credit applications dataset...
+
+</div>
+
+        """, unsafe_allow_html=True)
         time.sleep(1.5)
         with output_data_load.container():
             st.success("✅ Dataset 'application_data.csv' loaded successfully (307,511 rows).")
@@ -1459,7 +1528,19 @@ elif menu == "5. View Raw Source Code":
             st.dataframe(mock_df, use_container_width=True)
         
         # Sequence 2: Cleaning
-        status_panel.info("⏳ Executing lines 51-120: Applying data cleaning, imputing missing values, and binning variables...")
+        is_stitch_theme = st.session_state.get('theme', 'default') == 'stitch'
+
+        brand_color = "255, 51, 102" if is_stitch_theme else "0, 194, 255"
+
+        status_panel.markdown(f"""
+
+<div style="background: rgba({brand_color}, 0.15); border: 1px solid rgba({brand_color}, 0.4); padding: 12px 18px; border-radius: 12px; color: #fff; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px;">
+
+⏳ Executing lines 51-120: Applying data cleaning, imputing missing values, and binning variables...
+
+</div>
+
+        """, unsafe_allow_html=True)
         time.sleep(2.0)
         with output_cleaning.container():
             st.success("✅ Data cleaning complete. Missing values handled and age/income binned.")
@@ -1471,7 +1552,19 @@ elif menu == "5. View Raw Source Code":
             st.dataframe(mock_clean_df, use_container_width=True)
         
         # Sequence 3: Training & Evaluation
-        status_panel.info("⏳ Executing lines 121-200: Performing univariate/bivariate analysis and generating visualizations...")
+        is_stitch_theme = st.session_state.get('theme', 'default') == 'stitch'
+
+        brand_color = "255, 51, 102" if is_stitch_theme else "0, 194, 255"
+
+        status_panel.markdown(f"""
+
+<div style="background: rgba({brand_color}, 0.15); border: 1px solid rgba({brand_color}, 0.4); padding: 12px 18px; border-radius: 12px; color: #fff; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px;">
+
+⏳ Executing lines 121-200: Performing univariate/bivariate analysis and generating visualizations...
+
+</div>
+
+        """, unsafe_allow_html=True)
         time.sleep(2.5)
         with output_model.container():
             st.success("✅ EDA pipeline executed. Correlation heatmaps and distributions generated.")
