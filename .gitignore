@@ -1,1 +1,7 @@
 # Gitignore modified to allow downsampled CSV files for hosting
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
