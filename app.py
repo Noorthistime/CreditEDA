@@ -534,7 +534,7 @@ if st.session_state.theme == 'default':
         margin-bottom: 30px;
     }
     
-    .sentinel-code-body { white-space: nowrap; padding: 20px; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; line-height: 1.6; color: #a5b4fc; overflow-x: auto; overflow-y: hidden; }
+    .sentinel-code-body { white-space: nowrap; padding: 24px; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.95rem; line-height: 1.7; color: #d1d5db; overflow-x: auto; overflow-y: hidden; }
     
     .keyword { color: var(--brand-1) !important; font-weight: bold; }
     .builtin { color: #4f46e5; font-weight: bold; }
@@ -852,7 +852,7 @@ elif st.session_state.theme == 'stitch':
         margin-bottom: 30px;
     }
     
-    .sentinel-code-body { white-space: nowrap; padding: 20px; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; line-height: 1.6; color: #a5b4fc; overflow-x: auto; overflow-y: hidden; }
+    .sentinel-code-body { white-space: nowrap; padding: 24px; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.95rem; line-height: 1.7; color: #d1d5db; overflow-x: auto; overflow-y: hidden; }
     
     .keyword { color: var(--brand-1) !important; font-weight: bold; }
     .builtin { color: #4f46e5; font-weight: bold; }
@@ -1021,16 +1021,16 @@ if menu == "Project Overview":
 
     st.markdown(f"""<div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 24px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);">
 <h2 style="color: {c_cyan}; margin-top: 0; display: flex; align-items: center; gap: 10px; font-size: 1.65em;">• Project Abstract & Overview</h2>
-<p style="color: #eef3ff; font-size: 1.05em; line-height: 1.6; margin-bottom: 20px;">The Credit Exploratory Data Analysis (EDA) dashboard is a data analytics console designed to profile credit applicants and isolate risk behaviors associated with payment defaults. The pipeline imports historical user demographics, filters columns with high missing rates, performs median/mode imputation on null spaces, and segments quantitative variables (like age, credit size, and income) into discrete bins. By mapping correlation densities and comparing traits (such as gender, housing type, and organization) against default targets, credit providers can construct data-driven credit rating thresholds. This dashboard visualizes individual demographics, bivariate associations, and contract statuses to improve portfolio risk evaluation.</p>
+<p style="color: #eef3ff; font-size: 1.05em; line-height: 1.7; margin-bottom: 20px;">The Credit Exploratory Data Analysis (EDA) dashboard is a data analytics console designed to profile credit applicants and isolate risk behaviors associated with payment defaults. The pipeline imports historical user demographics, filters columns with high missing rates, performs median/mode imputation on null spaces, and segments quantitative variables (like age, credit size, and income) into discrete bins. By mapping correlation densities and comparing traits (such as gender, housing type, and organization) against default targets, credit providers can construct data-driven credit rating thresholds. This dashboard visualizes individual demographics, bivariate associations, and contract statuses to improve portfolio risk evaluation.</p>
 
 <!-- Core Objective Box (Full width) -->
-<div style="background: rgba({rgb_green}, 0.06); border: 1px solid rgba({rgb_green}, 0.2); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
+<div style="background: rgba({rgb_green}, 0.06); border: 1px solid rgba({rgb_green}, 0.2); padding: 24px; border-radius: 14px; margin-bottom: 24px;">
 <h3 style="color: {c_green}; margin-top: 0; margin-bottom: 8px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Core Objective</h3>
 <p style="color: #eef3ff; font-size: 0.98em; line-height: 1.5; margin-bottom: 0;">Uncover latent customer risk demographics and credit parameters that correlate with loan payment default rates, helping lending institutions identify key default indicators and protect active credit lines.</p>
 </div>
 
 <!-- Pipeline Workflow Panel (Full width) -->
-<div style="background: rgba({rgb_orange}, 0.05); border: 1px solid rgba({rgb_orange}, 0.22); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
+<div style="background: rgba({rgb_orange}, 0.05); border: 1px solid rgba({rgb_orange}, 0.22); padding: 24px; border-radius: 14px; margin-bottom: 24px;">
 <h3 style="color: {c_orange}; margin-top: 0; margin-bottom: 16px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Pipeline Workflow</h3>
 <div style="display: flex; flex-direction: column; gap: 12px;">
 <div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid {c_orange}; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
@@ -1072,7 +1072,7 @@ if menu == "Project Overview":
 </div>
 
 <!-- Technologies Used Box (Full width) -->
-<div style="background: rgba({rgb_purple}, 0.04); border: 1px solid rgba({rgb_purple}, 0.18); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
+<div style="background: rgba({rgb_purple}, 0.04); border: 1px solid rgba({rgb_purple}, 0.18); padding: 24px; border-radius: 14px; margin-bottom: 24px;">
 <h3 style="color: {c_purple}; margin-top: 0; margin-bottom: 16px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Technologies Used</h3>
 <div style="display: flex; flex-direction: column; gap: 14px;">
 <div style="display: flex; gap: 4px; flex-direction: column;">
@@ -1300,7 +1300,19 @@ elif menu == "4. Full Code Explorer":
         prev_app = get_prev()
         
         if st.session_state.credit_active_block is None:
-            st.info("👈 Click a 'Run' button on the left to see the output here!")
+            is_stitch_theme = st.session_state.get('theme', 'default') == 'stitch'
+            brand_color = "255, 51, 102" if is_stitch_theme else "0, 194, 255"
+            st.markdown(f"""
+            <div style="background: rgba({brand_color}, 0.15); 
+                        border: 1px solid rgba({brand_color}, 0.4); 
+                        padding: 16px 20px; 
+                        border-radius: 14px; 
+                        color: #fff; 
+                        font-weight: 500;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                👈 Click a <b>'Run'</b> button on the left to see the output here!
+            </div>
+            """, unsafe_allow_html=True)
         else:
             phase_map = {
                 "block1": "Data Inspection",
