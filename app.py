@@ -639,50 +639,69 @@ if menu != "Project Overview":
     """, unsafe_allow_html=True)
 
 if menu == "Project Overview":
-    st.markdown("""<div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 24px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);">
-<h2 style="color: #00c2ff; margin-top: 0; display: flex; align-items: center; gap: 10px; font-size: 1.65em;">• Project Abstract & Overview</h2>
+    if st.session_state.theme == 'stitch':
+        c_cyan = "#ff3366"
+        rgb_cyan = "255, 51, 102"
+        c_green = "#ff3366"
+        rgb_green = "255, 51, 102"
+        c_orange = "#ff3366"
+        rgb_orange = "255, 51, 102"
+        c_purple = "#ff3366"
+        rgb_purple = "255, 51, 102"
+    else:
+        c_cyan = "#00c2ff"
+        rgb_cyan = "0, 194, 255"
+        c_green = "#26d9a4"
+        rgb_green = "38, 217, 164"
+        c_orange = "#ff9f1c"
+        rgb_orange = "255, 159, 28"
+        c_purple = "#b854ff"
+        rgb_purple = "156, 39, 176"
+
+    st.markdown(f"""<div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 24px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);">
+<h2 style="color: {c_cyan}; margin-top: 0; display: flex; align-items: center; gap: 10px; font-size: 1.65em;">• Project Abstract & Overview</h2>
 <p style="color: #eef3ff; font-size: 1.05em; line-height: 1.6; margin-bottom: 20px;">The Credit Exploratory Data Analysis (EDA) dashboard is a data analytics console designed to profile credit applicants and isolate risk behaviors associated with payment defaults. The pipeline imports historical user demographics, filters columns with high missing rates, performs median/mode imputation on null spaces, and segments quantitative variables (like age, credit size, and income) into discrete bins. By mapping correlation densities and comparing traits (such as gender, housing type, and organization) against default targets, credit providers can construct data-driven credit rating thresholds. This dashboard visualizes individual demographics, bivariate associations, and contract statuses to improve portfolio risk evaluation.</p>
 
 <!-- Core Objective Box (Full width) -->
-<div style="background: rgba(38, 217, 164, 0.06); border: 1px solid rgba(38, 217, 164, 0.2); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
-<h3 style="color: #26d9a4; margin-top: 0; margin-bottom: 8px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Core Objective</h3>
+<div style="background: rgba({rgb_green}, 0.06); border: 1px solid rgba({rgb_green}, 0.2); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
+<h3 style="color: {c_green}; margin-top: 0; margin-bottom: 8px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Core Objective</h3>
 <p style="color: #eef3ff; font-size: 0.98em; line-height: 1.5; margin-bottom: 0;">Uncover latent customer risk demographics and credit parameters that correlate with loan payment default rates, helping lending institutions identify key default indicators and protect active credit lines.</p>
 </div>
 
 <!-- Pipeline Workflow Panel (Full width) -->
-<div style="background: rgba(255, 159, 28, 0.05); border: 1px solid rgba(255, 159, 28, 0.22); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
-<h3 style="color: #ff9f1c; margin-top: 0; margin-bottom: 16px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Pipeline Workflow</h3>
+<div style="background: rgba({rgb_orange}, 0.05); border: 1px solid rgba({rgb_orange}, 0.22); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
+<h3 style="color: {c_orange}; margin-top: 0; margin-bottom: 16px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Pipeline Workflow</h3>
 <div style="display: flex; flex-direction: column; gap: 12px;">
-<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #ff9f1c; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
-<div style="font-size: 1.2em; font-weight: bold; color: #ff9f1c; min-width: 32px;">01</div>
+<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid {c_orange}; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
+<div style="font-size: 1.2em; font-weight: bold; color: {c_orange}; min-width: 32px;">01</div>
 <div>
 <strong style="color: #eef3ff; display: block; font-size: 0.95em; margin-bottom: 2px;">Multi-Dataset Ingestion</strong>
 <span style="color: #c9d1d9; font-size: 0.88em; line-height: 1.4;">Loads client applications and previous loan contract files into structured Pandas DataFrames.</span>
 </div>
 </div>
-<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #ff9f1c; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
-<div style="font-size: 1.2em; font-weight: bold; color: #ff9f1c; min-width: 32px;">02</div>
+<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid {c_orange}; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
+<div style="font-size: 1.2em; font-weight: bold; color: {c_orange}; min-width: 32px;">02</div>
 <div>
 <strong style="color: #eef3ff; display: block; font-size: 0.95em; margin-bottom: 2px;">Null Features Pruning</strong>
 <span style="color: #c9d1d9; font-size: 0.88em; line-height: 1.4;">Purges columns containing missing entries exceeding a threshold of 47%, retaining high-integrity variables.</span>
 </div>
 </div>
-<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #ff9f1c; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
-<div style="font-size: 1.2em; font-weight: bold; color: #ff9f1c; min-width: 32px;">03</div>
+<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid {c_orange}; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
+<div style="font-size: 1.2em; font-weight: bold; color: {c_orange}; min-width: 32px;">03</div>
 <div>
 <strong style="color: #eef3ff; display: block; font-size: 0.95em; margin-bottom: 2px;">Statistical Imputation</strong>
 <span style="color: #c9d1d9; font-size: 0.88em; line-height: 1.4;">Imputes remaining missing spaces, employing median parameters for numeric indices and mode/frequency metrics for categories.</span>
 </div>
 </div>
-<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #ff9f1c; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
-<div style="font-size: 1.2em; font-weight: bold; color: #ff9f1c; min-width: 32px;">04</div>
+<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid {c_orange}; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
+<div style="font-size: 1.2em; font-weight: bold; color: {c_orange}; min-width: 32px;">04</div>
 <div>
 <strong style="color: #eef3ff; display: block; font-size: 0.95em; margin-bottom: 2px;">Standardization & Binning</strong>
 <span style="color: #c9d1d9; font-size: 0.88em; line-height: 1.4;">Normalizes demographic indicators (e.g. converting negative days into positive years) and segments continuous metrics (such as age, credit volumes, and income) into discrete intervals.</span>
 </div>
 </div>
-<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid #ff9f1c; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
-<div style="font-size: 1.2em; font-weight: bold; color: #ff9f1c; min-width: 32px;">05</div>
+<div style="background: rgba(255, 255, 255, 0.02); border-left: 4px solid {c_orange}; border-top: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 4px 12px 12px 4px; display: flex; align-items: center; gap: 16px;">
+<div style="font-size: 1.2em; font-weight: bold; color: {c_orange}; min-width: 32px;">05</div>
 <div>
 <strong style="color: #eef3ff; display: block; font-size: 0.95em; margin-bottom: 2px;">Correlation Plotting & Auditing</strong>
 <span style="color: #c9d1d9; font-size: 0.88em; line-height: 1.4;">Plots univariate distributions, bivariate relationships, and multivariate correlation heatmaps to visualize the risk variables.</span>
@@ -692,8 +711,8 @@ if menu == "Project Overview":
 </div>
 
 <!-- Technologies Used Box (Full width) -->
-<div style="background: rgba(156, 39, 176, 0.04); border: 1px solid rgba(156, 39, 176, 0.18); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
-<h3 style="color: #b854ff; margin-top: 0; margin-bottom: 16px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Technologies Used</h3>
+<div style="background: rgba({rgb_purple}, 0.04); border: 1px solid rgba({rgb_purple}, 0.18); padding: 20px; border-radius: 14px; margin-bottom: 24px;">
+<h3 style="color: {c_purple}; margin-top: 0; margin-bottom: 16px; font-size: 1.25em; display: flex; align-items: center; gap: 8px;">• Technologies Used</h3>
 <div style="display: flex; flex-direction: column; gap: 14px;">
 <div style="display: flex; gap: 4px; flex-direction: column;">
 <strong style="color: #eef3ff; font-size: 0.98em;">1. Pandas</strong>
@@ -711,19 +730,19 @@ if menu == "Project Overview":
 </div>
 
 <!-- Metrics Ribbon -->
-<div style="margin-top: 24px; background: rgba(0, 194, 255, 0.05); border: 1px solid rgba(0, 194, 255, 0.15); padding: 16px; border-radius: 12px; display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; gap: 16px;">
+<div style="margin-top: 24px; background: rgba({rgb_cyan}, 0.05); border: 1px solid rgba({rgb_cyan}, 0.15); padding: 16px; border-radius: 12px; display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; gap: 16px;">
 <div>
-<div style="font-size: 1.8em; font-weight: bold; color: #00c2ff;">49,000+</div>
+<div style="font-size: 1.8em; font-weight: bold; color: {c_cyan};">49,000+</div>
 <div style="font-size: 0.85em; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">Current Applications</div>
 </div>
 <div style="border-left: 1px solid rgba(255, 255, 255, 0.1); height: 50px; align-self: center;"></div>
 <div>
-<div style="font-size: 1.8em; font-weight: bold; color: #26d9a4;">1.67 Million</div>
+<div style="font-size: 1.8em; font-weight: bold; color: {c_green};">1.67 Million</div>
 <div style="font-size: 0.85em; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">Historical Loan Records</div>
 </div>
 <div style="border-left: 1px solid rgba(255, 255, 255, 0.1); height: 50px; align-self: center;"></div>
 <div>
-<div style="font-size: 1.8em; font-weight: bold; color: #ff9f1c;">~8.0%</div>
+<div style="font-size: 1.8em; font-weight: bold; color: {c_orange};">~8.0%</div>
 <div style="font-size: 0.85em; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">Default Rate (Target 1)</div>
 </div>
 </div>
