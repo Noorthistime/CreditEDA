@@ -524,7 +524,22 @@ if st.session_state.theme == 'default':
         margin: 0 !important;
         padding: 0 !important;
     }
+
+    .sentinel-terminal {
+        background: rgba(10, 10, 15, 0.9) !important;
+        border: 1px solid var(--glass-border) !important;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 12px 35px rgba(0,0,0,0.3);
+        margin-bottom: 30px;
+    }
+    
+    .sentinel-code-body { white-space: nowrap; padding: 20px; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; line-height: 1.6; color: #a5b4fc; overflow-x: auto; overflow-y: hidden; }
+    
+    .keyword { color: var(--brand-1) !important; font-weight: bold; }
+    .builtin { color: #4f46e5; font-weight: bold; }
 </style>
+
 """, unsafe_allow_html=True)
 
 elif st.session_state.theme == 'stitch':
@@ -827,7 +842,22 @@ elif st.session_state.theme == 'stitch':
         margin: 0 !important;
         padding: 0 !important;
     }
+
+    .sentinel-terminal {
+        background: rgba(10, 10, 15, 0.9) !important;
+        border: 1px solid var(--glass-border) !important;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 12px 35px rgba(0,0,0,0.3);
+        margin-bottom: 30px;
+    }
+    
+    .sentinel-code-body { white-space: nowrap; padding: 20px; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; line-height: 1.6; color: #a5b4fc; overflow-x: auto; overflow-y: hidden; }
+    
+    .keyword { color: var(--brand-1) !important; font-weight: bold; }
+    .builtin { color: #4f46e5; font-weight: bold; }
 </style>
+
 """, unsafe_allow_html=True)
 
 def show_explanation(text, technique=None):
@@ -1165,69 +1195,103 @@ elif menu == "4. Full Code Explorer":
         st.subheader("Interactive Code Explorer")
         
         st.markdown("### Block 1: App Data Inspection")
-        st.code('''import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-app_data = pd.read_csv("application_data.csv")
-null_col = app_data.isnull().sum().sort_values(ascending = False)
-null_col = null_col[null_col.values >(0.40*len(app_data))]''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                <span class="keyword">import</span> pandas <span class="keyword">as</span> pd<br><span class="keyword">import</span> numpy <span class="keyword">as</span> np<br><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns<br><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt<br>&nbsp;<br>app_data = pd.<span class="builtin">read_csv</span>("application_data.csv")<br>null_col = app_data.isnull().sum().sort_values(ascending = <span class="builtin">False</span>)<br>null_col = null_col[null_col.values >(0.40*<span class="builtin">len</span>(app_data))]
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 1"): st.session_state.credit_active_block = "block1"
         
         st.markdown("### Block 2: Null Dropping & Imputation")
-        st.code('''percentage = 47
-threshold = int(((100-percentage)/100)*app_data.shape[0] + 1)
-app_df = app_data.dropna(axis=1, thresh=threshold)
-app_df["AMT_ANNUITY"].fillna(app_df["AMT_ANNUITY"].median(), inplace=True)
-app_df["AMT_GOODS_PRICE"].fillna(app_df["AMT_GOODS_PRICE"].median(), inplace=True)
-app_df["CNT_FAM_MEMBERS"].fillna(app_df["CNT_FAM_MEMBERS"].median(), inplace=True)''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                percentage = 47<br>threshold = <span class="builtin">int</span>(((100-percentage)/100)*app_data.<span class="builtin">shape</span>[0] + 1)<br>app_df = app_data.dropna(axis=1, thresh=threshold)<br>app_df["AMT_ANNUITY"].<span class="builtin">fillna</span>(app_df["AMT_ANNUITY"].median(), inplace=<span class="builtin">True</span>)<br>app_df["AMT_GOODS_PRICE"].<span class="builtin">fillna</span>(app_df["AMT_GOODS_PRICE"].median(), inplace=<span class="builtin">True</span>)<br>app_df["CNT_FAM_MEMBERS"].<span class="builtin">fillna</span>(app_df["CNT_FAM_MEMBERS"].median(), inplace=<span class="builtin">True</span>)
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 2"): st.session_state.credit_active_block = "block2"
         
         st.markdown("### Block 3: Binning & Categories")
-        st.code('''app_df.DAYS_BIRTH = app_df.DAYS_BIRTH.apply(lambda x: abs(x))
-app_df["YEARS_BIRTH"] = app_df.DAYS_BIRTH.apply(lambda x: int(x//365))
-app_df["AGE_Category"] = pd.cut(app_df.YEARS_BIRTH, [0, 25, 45, 65, 85], labels=["Below 25", "25-45", "45-65", "65-85"])
-app_df["CREDIT_Category"] = pd.cut(app_df.AMT_CREDIT, [0, 250000, 500000, 750000, 1000000], labels=["Below 2.5L", "2.5L-5L", "5L-7.5L", "7.5L-10L"])
-app_df["AGE_Category"].value_counts(normalize=True).plot.pie()''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                app_df.DAYS_BIRTH = app_df.DAYS_BIRTH.<span class="builtin">apply</span>(lambda x: abs(x))<br>app_df["YEARS_BIRTH"] = app_df.DAYS_BIRTH.<span class="builtin">apply</span>(lambda x: <span class="builtin">int</span>(x//365))<br>app_df["AGE_Category"] = pd.cut(app_df.YEARS_BIRTH, [0, 25, 45, 65, 85], labels=["Below 25", "25-45", "45-65", "65-85"])<br>app_df["CREDIT_Category"] = pd.cut(app_df.AMT_CREDIT, [0, 250000, 500000, 750000, 1000000], labels=["Below 2.5L", "2.5L-5L", "5L-7.5L", "7.5L-10L"])<br>app_df["AGE_Category"].value_counts(normalize=<span class="builtin">True</span>).plot.pie()
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 3"): st.session_state.credit_active_block = "block3"
         
         st.markdown("### Block 4: Target Imbalance")
-        st.code('''app_df.TARGET.value_counts(normalize=True).plot.pie(autopct='%1.2f%%')''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                app_df.TARGET.value_counts(normalize=<span class="builtin">True</span>).plot.pie(autopct='%1.2f%%')
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 4"): st.session_state.credit_active_block = "block4"
 
         st.markdown("### Block 5: Univariate Analysis")
-        st.code('''sns.histplot(app_df.AMT_CREDIT, bins=10)
-plt.title("Distribution of AMT_CREDIT")''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                sns.histplot(app_df.AMT_CREDIT, bins=10)<br>plt.title("Distribution of AMT_CREDIT")
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 5"): st.session_state.credit_active_block = "block5"
 
         st.markdown("### Block 6: Target 0 vs 1 Bivariate")
-        st.code('''tar_0 = app_df[app_df.TARGET == 0]
-tar_1 = app_df[app_df.TARGET == 1]
-sns.histplot(tar_0['AMT_GOODS_PRICE'], label='tar_0', kde=True)
-sns.histplot(tar_1['AMT_GOODS_PRICE'], label='tar_1', kde=True)''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                tar_0 = app_df[app_df.TARGET == 0]<br>tar_1 = app_df[app_df.TARGET == 1]<br>sns.histplot(tar_0['AMT_GOODS_PRICE'], label='tar_0', kde=<span class="builtin">True</span>)<br>sns.histplot(tar_1['AMT_GOODS_PRICE'], label='tar_1', kde=<span class="builtin">True</span>)
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 6"): st.session_state.credit_active_block = "block6"
 
         st.markdown("### Block 7: Correlation Heatmaps")
-        st.code('''corr_data_0 = tar_0[["AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", "AMT_GOODS_PRICE", "YEARS_BIRTH"]]
-sns.heatmap(corr_data_0.corr(), annot=True, cmap="RdYlGn")''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                corr_data_0 = tar_0[["AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", "AMT_GOODS_PRICE", "YEARS_BIRTH"]]<br>sns.<span class="builtin">heatmap</span>(corr_data_0.corr(), annot=<span class="builtin">True</span>, cmap="RdYlGn")
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 7"): st.session_state.credit_active_block = "block7"
 
         st.markdown("### Block 8: Previous Application Data")
-        st.code('''prev_app = pd.read_csv("previous_application.csv")
-prev_app["AMT_ANNUITY"].fillna(prev_app["AMT_ANNUITY"].median(), inplace=True)
-prev_app["AMT_GOODS_PRICE"].fillna(prev_app["AMT_GOODS_PRICE"].median(), inplace=True)''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                prev_app = pd.<span class="builtin">read_csv</span>("previous_application.csv")<br>prev_app["AMT_ANNUITY"].<span class="builtin">fillna</span>(prev_app["AMT_ANNUITY"].median(), inplace=<span class="builtin">True</span>)<br>prev_app["AMT_GOODS_PRICE"].<span class="builtin">fillna</span>(prev_app["AMT_GOODS_PRICE"].median(), inplace=<span class="builtin">True</span>)
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 8"): st.session_state.credit_active_block = "block8"
 
         st.markdown("### Block 9: Previous App Bivariate")
-        st.code('''sns.countplot(x='NAME_CONTRACT_STATUS', data=prev_app)
-plt.title("Contract Status")''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                sns.<span class="builtin">countplot</span>(x='NAME_CONTRACT_STATUS', data=prev_app)<br>plt.title("Contract Status")
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 9"): st.session_state.credit_active_block = "block9"
 
         st.markdown("### Block 10: Merged Data Heatmaps")
-        st.code('''merged_df = pd.merge(app_df, prev_app, on="SK_ID_CURR", how="inner")
-pivot_table = pd.pivot_table(merged_df, values='AMT_CREDIT_x', index='NAME_INCOME_TYPE', columns='NAME_CONTRACT_STATUS', aggfunc=np.mean)
-sns.heatmap(pivot_table, annot=True, cmap="YlGnBu")''', language="python")
+        st.markdown('''
+        <div class="sentinel-terminal">
+            <div class="sentinel-code-body">
+                merged_df = pd.merge(app_df, prev_app, on="SK_ID_CURR", how="inner")<br>pivot_table = pd.pivot_table(merged_df, values='AMT_CREDIT_x', index='NAME_INCOME_TYPE', columns='NAME_CONTRACT_STATUS', aggfunc=np.mean)<br>sns.<span class="builtin">heatmap</span>(pivot_table, annot=<span class="builtin">True</span>, cmap="YlGnBu")
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
         if st.button("▶ Run Block 10"): st.session_state.credit_active_block = "block10"
 
     with col2:
