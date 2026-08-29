@@ -600,7 +600,6 @@ st.markdown("""
 <div class="premium-hero">
     <h1>Credit Exploratory Data Analysis</h1>
 </div>
-</div>
 """, unsafe_allow_html=True)
 
 if menu != "Project Overview":
