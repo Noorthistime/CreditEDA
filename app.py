@@ -12,7 +12,7 @@ def get_hl_code(code_str):
     import re
     keywords = {'import', 'from', 'if', 'else', 'elif', 'for', 'while', 'def', 'class', 'return', 'and', 'or', 'not', 'in', 'is', 'try', 'except', 'with', 'as', 'pass', 'break', 'continue'}
     builtins = {'print', 'len', 'range', 'int', 'float', 'str', 'list', 'dict', 'set', 'tuple', 'bool', 'True', 'False', 'None'}
-    methods = {'read_csv', 'map', 'copy', 'lower', 'sub', 'escape', 'split', 'join', 'stem', 'apply', 'fit', 'predict', 'transform', 'fit_transform', 'toarray', 'concat', 'lemmatize', 'DataFrame', 'subplots', 'heatmap', 'countplot', 'head', 'shape', 'drop', 'fillna', 'astype', 'isnull', 'sum', 'sort_values'}
+    methods = {'read_csv', 'map', 'copy', 'lower', 'sub', 'escape', 'split', 'join', 'stem', 'apply', 'fit', 'predict', 'transform', 'fit_transform', 'toarray', 'concat', 'lemmatize', 'DataFrame', 'subplots', 'heatmap', 'countplot', 'head', 'shape', 'drop', 'fillna', 'astype', 'isnull', 'sum', 'sort_values', 'figure', 'figsize', 'histplot', 'label', 'kde', 'legend', 'show', 'corr', 'annot', 'cmap', 'value_counts', 'plot', 'pie', 'autopct', 'dropna', 'thresh', 'axis', 'cut', 'labels', 'plt', 'sns', 'tar_0', 'tar_1', 'corr_data_0', 'app_data', 'app_df'}
     
     hl_lines = []
     lines = code_str.strip('\n').split('\n')
@@ -1242,7 +1242,7 @@ elif menu == "1. Data Cleaning & Binning":
 
     col1, col2 = st.columns([1, 1])
     with col1:
-        st.subheader("Cleaning Code")
+        st.markdown("### Cleaning Code")
         st.markdown(get_hl_code("""# Dropping columns with missing values greater than 47%
 percentage = 47
 threshold = int(((100-percentage)/100)*app_data.shape[0] + 1)
@@ -1258,7 +1258,7 @@ app_df["AGE_Category"] = pd.cut(
     labels = ["Below 25", "25-45", "45-65", "65-85"]
 )"""), unsafe_allow_html=True)
     with col2:
-        st.subheader("Data Overview (Cleaned)")
+        st.markdown("### Data Overview (Cleaned)")
         st.dataframe(app_df.head(10))
         
         st.write("Age Category Distribution")
@@ -1271,7 +1271,7 @@ app_df["AGE_Category"] = pd.cut(
 elif menu == "2. Univariate Analysis":
     col1, col2 = st.columns([1, 1])
     with col1:
-        st.subheader("Univariate Analysis Code")
+        st.markdown("### Univariate Analysis Code")
         st.markdown(get_hl_code("""# Analysis on AMT_GOODS_PRICE on target 0 and 1
 plt.figure(figsize=(10,6))
 sns.histplot(tar_0['AMT_GOODS_PRICE'], label = 'tar_0', kde=True)
@@ -1279,7 +1279,7 @@ sns.histplot(tar_1['AMT_GOODS_PRICE'], label = 'tar_1', kde=True)
 plt.legend()
 plt.show()"""), unsafe_allow_html=True)
     with col2:
-        st.subheader("AMT_GOODS_PRICE (Target 0 vs Target 1)")
+        st.markdown("### AMT_GOODS_PRICE (Target 0 vs Target 1)")
         fig, ax = plt.subplots(figsize=(8, 5))
         sns.histplot(tar_0['AMT_GOODS_PRICE'], label='tar_0', kde=True, ax=ax, color='blue', alpha=0.5)
         sns.histplot(tar_1['AMT_GOODS_PRICE'], label='tar_1', kde=True, ax=ax, color='red', alpha=0.5)
@@ -1292,7 +1292,7 @@ plt.show()"""), unsafe_allow_html=True)
 elif menu == "3. Bivariate & Multivariate Analysis":
     col1, col2 = st.columns([1, 1])
     with col1:
-        st.subheader("Correlation Heatmap Code")
+        st.markdown("### Correlation Heatmap Code")
         st.markdown(get_hl_code("""# Co-relation between Numerical Columns for Target 0
 corr_data_0 = tar_0[["AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", 
                      "AMT_GOODS_PRICE", "YEARS_BIRTH", "YEARS_LAST_PHONE_CHANGE"]]
@@ -1301,7 +1301,7 @@ plt.figure(figsize=(10,10))
 sns.heatmap(corr_data_0.corr(), annot=True, cmap="RdYlGn")
 plt.show()"""), unsafe_allow_html=True)
     with col2:
-        st.subheader("Correlation Heatmap (Target 0)")
+        st.markdown("### Correlation Heatmap (Target 0)")
         corr_data_0 = tar_0[["AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", "AMT_GOODS_PRICE", "YEARS_BIRTH", "YEARS_LAST_PHONE_CHANGE"]]
         fig, ax = plt.subplots(figsize=(6, 6))
         sns.heatmap(corr_data_0.corr(), annot=True, cmap="RdYlGn", ax=ax, fmt=".2f")
