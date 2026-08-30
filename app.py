@@ -169,6 +169,15 @@ if st.session_state.theme == 'default':
         box-shadow: 0 0 18px rgba(0, 194, 255, 0.2), 0 16px 34px rgba(8, 15, 40, 0.36);
     }
 
+    /* Force stAlert (st.info, st.success) to adopt our custom colors instead of native Streamlit blue */
+    div[data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {
+        color: #eef3ff !important;
+        font-weight: 500 !important;
+    }
+    div[data-testid="stAlert"] svg {
+        fill: var(--brand-1) !important;
+    }
+
     h1, h2, h3 {
         letter-spacing: 0.2px;
         text-shadow: 0 0 18px rgba(79, 70, 229, 0.28);
