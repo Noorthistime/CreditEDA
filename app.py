@@ -18,22 +18,28 @@ def get_hl_code(code_str):
     lines = code_str.strip('\n').split('\n')
     for line in lines:
         leading_whitespace = len(line) - len(line.lstrip())
-        words = re.split(r'(\W+)', line.lstrip())
+        stripped = line.lstrip()
         
-        hl_words = []
-        for w in words:
-            if w in keywords:
-                hl_words.append(f'<span class="keyword">{w}</span>')
-            elif w in builtins or w in methods:
-                hl_words.append(f'<span class="builtin">{w}</span>')
-            else:
-                hl_words.append(w)
-                
-        hl_line = ('&nbsp;' * leading_whitespace) + ''.join(hl_words)
+        if stripped.startswith('#'):
+            hl_line = ('&nbsp;' * leading_whitespace) + f'<span class="comment">{stripped}</span>'
+        else:
+            words = re.split(r'(\W+)', stripped)
+            hl_words = []
+            for w in words:
+                if w in keywords:
+                    hl_words.append(f'<span class="keyword">{w}</span>')
+                elif w in builtins or w in methods:
+                    hl_words.append(f'<span class="builtin">{w}</span>')
+                else:
+                    hl_words.append(w)
+            hl_line = ('&nbsp;' * leading_whitespace) + ''.join(hl_words)
+            
         if not line.strip():
             hl_line = '&nbsp;'
         hl_lines.append(hl_line)
-    return '<br>'.join(hl_lines)
+        
+    hl_code = '<br>'.join(hl_lines)
+    return f'''<div class="sentinel-terminal"><div class="sentinel-code-body">{hl_code}</div></div>'''
 
 
 if 'theme' not in st.session_state:
@@ -586,7 +592,7 @@ if st.session_state.theme == 'default':
     .sentinel-code-body { white-space: nowrap; padding: 24px; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.95rem; line-height: 1.7; color: #d1d5db; overflow-x: auto; overflow-y: hidden; }
     
     .keyword { color: var(--brand-1) !important; font-weight: bold; }
-    .builtin { color: #4f46e5; font-weight: bold; }
+    .builtin { color: var(--brand-1); font-weight: bold; }
 </style>
 
 """, unsafe_allow_html=True)
@@ -926,7 +932,7 @@ elif st.session_state.theme == 'stitch':
     .sentinel-code-body { white-space: nowrap; padding: 24px; font-family: 'Fira Code', 'Courier New', Courier, monospace; font-size: 0.95rem; line-height: 1.7; color: #d1d5db; overflow-x: auto; overflow-y: hidden; }
     
     .keyword { color: var(--brand-1) !important; font-weight: bold; }
-    .builtin { color: #4f46e5; font-weight: bold; }
+    .builtin { color: var(--brand-1); font-weight: bold; }
 </style>
 
 """, unsafe_allow_html=True)
@@ -1185,8 +1191,7 @@ elif menu == "1. Data Cleaning & Binning":
     col1, col2 = st.columns([1, 1])
     with col1:
         st.subheader("Cleaning Code")
-        st.code("""
-# Dropping columns with missing values greater than 47%
+        st.markdown(get_hl_code("""# Dropping columns with missing values greater than 47%
 percentage = 47
 threshold = int(((100-percentage)/100)*app_data.shape[0] + 1)
 app_df = app_data.dropna(axis=1, thresh=threshold)
@@ -1199,8 +1204,7 @@ app_df["AGE_Category"] = pd.cut(
     app_df.YEARS_BIRTH, 
     [0, 25, 45, 65, 85],
     labels = ["Below 25", "25-45", "45-65", "65-85"]
-)
-        """, language="python")
+)"""), unsafe_allow_html=True)
     with col2:
         st.subheader("Data Overview (Cleaned)")
         st.dataframe(app_df.head(10))
@@ -1504,7 +1508,7 @@ Here is the complete, original source code for this project.
 
             hl_code = get_hl_code(raw_code)
 
-            html_str = '''<div class="sentinel-terminal"><div class="sentinel-code-body">''' + hl_code + '''</div></div>'''
+            html_str = hl_code
 
             st.markdown(html_str, unsafe_allow_html=True)
     except FileNotFoundError:
@@ -1514,7 +1518,7 @@ Here is the complete, original source code for this project.
 
                 hl_code = get_hl_code(raw_code)
 
-                html_str = '''<div class="sentinel-terminal"><div class="sentinel-code-body">''' + hl_code + '''</div></div>'''
+                html_str = hl_code
 
                 st.markdown(html_str, unsafe_allow_html=True)
         except FileNotFoundError:
@@ -1524,7 +1528,7 @@ Here is the complete, original source code for this project.
 
                     hl_code = get_hl_code(raw_code)
 
-                    html_str = '''<div class="sentinel-terminal"><div class="sentinel-code-body">''' + hl_code + '''</div></div>'''
+                    html_str = hl_code
 
                     st.markdown(html_str, unsafe_allow_html=True)
             except FileNotFoundError:
