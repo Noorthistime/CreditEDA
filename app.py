@@ -343,10 +343,19 @@ if st.session_state.theme == 'default':
         box-shadow: 0 0 15px rgba(0, 194, 255, 0.25), inset 0 0 8px rgba(0, 194, 255, 0.15);
     }
 
-    /* The Trojan Horse Strategy: Hide Streamlit's native dot container */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > div:not([data-testid="stMarkdownContainer"]),
+    /* The Smart Sibling Strategy */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > div:first-of-type:not(:last-of-type),
     [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > svg {
         display: none !important;
+    }
+    
+    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label input[type="radio"] {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        opacity: 0 !important;
     }
 
     /* Draw our custom empty circle */
@@ -724,10 +733,19 @@ elif st.session_state.theme == 'stitch':
         box-shadow: 0 0 15px rgba(255, 51, 102, 0.25), inset 0 0 8px rgba(255, 51, 102, 0.15);
     }
 
-    /* The Trojan Horse Strategy: Hide Streamlit's native dot container */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > div:not([data-testid="stMarkdownContainer"]),
+    /* The Smart Sibling Strategy */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > div:first-of-type:not(:last-of-type),
     [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > svg {
         display: none !important;
+    }
+    
+    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label input[type="radio"] {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        opacity: 0 !important;
     }
 
     /* Draw our custom empty circle */
@@ -1236,14 +1254,12 @@ elif menu == "2. Univariate Analysis":
     col1, col2 = st.columns([1, 1])
     with col1:
         st.subheader("Univariate Analysis Code")
-        st.code("""
-# Analysis on AMT_GOODS_PRICE on target 0 and 1
+        st.markdown(get_hl_code("""# Analysis on AMT_GOODS_PRICE on target 0 and 1
 plt.figure(figsize=(10,6))
 sns.histplot(tar_0['AMT_GOODS_PRICE'], label = 'tar_0', kde=True)
 sns.histplot(tar_1['AMT_GOODS_PRICE'], label = 'tar_1', kde=True)
 plt.legend()
-plt.show()
-        """, language="python")
+plt.show()"""), unsafe_allow_html=True)
     with col2:
         st.subheader("AMT_GOODS_PRICE (Target 0 vs Target 1)")
         fig, ax = plt.subplots(figsize=(8, 5))
@@ -1259,15 +1275,13 @@ elif menu == "3. Bivariate & Multivariate Analysis":
     col1, col2 = st.columns([1, 1])
     with col1:
         st.subheader("Correlation Heatmap Code")
-        st.code("""
-# Co-relation between Numerical Columns for Target 0
+        st.markdown(get_hl_code("""# Co-relation between Numerical Columns for Target 0
 corr_data_0 = tar_0[["AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", 
                      "AMT_GOODS_PRICE", "YEARS_BIRTH", "YEARS_LAST_PHONE_CHANGE"]]
 
 plt.figure(figsize=(10,10))
 sns.heatmap(corr_data_0.corr(), annot=True, cmap="RdYlGn")
-plt.show()
-        """, language="python")
+plt.show()"""), unsafe_allow_html=True)
     with col2:
         st.subheader("Correlation Heatmap (Target 0)")
         corr_data_0 = tar_0[["AMT_INCOME_TOTAL", "AMT_CREDIT", "AMT_ANNUITY", "AMT_GOODS_PRICE", "YEARS_BIRTH", "YEARS_LAST_PHONE_CHANGE"]]
