@@ -51,6 +51,33 @@ is_stitch = st.button("HIDDEN_TOGGLE_DO_NOT_CLICK", key="hidden_theme_btn")
 if is_stitch:
     st.session_state.theme = 'stitch' if st.session_state.theme == 'default' else 'default'
 
+import streamlit.components.v1 as components
+components.html('''
+<script>
+    setInterval(() => {
+        const parent = window.parent.document;
+        const heroes = parent.querySelectorAll('.premium-hero');
+        heroes.forEach(hero => {
+            if (!hero.dataset.clickAttached) {
+                hero.addEventListener('click', () => {
+                    const allBtns = parent.querySelectorAll('button');
+                    let targetBtn = null;
+                    allBtns.forEach(b => {
+                        if (b.innerText.includes("HIDDEN_TOGGLE_DO_NOT_CLICK")) {
+                            targetBtn = b;
+                        }
+                    });
+                    if (targetBtn) {
+                        targetBtn.click();
+                    }
+                });
+                hero.dataset.clickAttached = 'true';
+            }
+        });
+    }, 100);
+</script>
+''', height=0)
+
 if st.session_state.theme == 'default':
     st.markdown("""
 <style>
@@ -1151,7 +1178,7 @@ app_data, app_df = load_and_clean_data()
 tar_0 = app_df[app_df.TARGET == 0]
 tar_1 = app_df[app_df.TARGET == 1]
 
-st.markdown('<div id="hero-scroll-marker" style="position: absolute; top: -10px;"></div>', unsafe_allow_html=True)
+st.markdown('<div id="hero-scroll-marker" style="position: absolute; top: 10px; height: 20px; z-index: -1; pointer-events: none;"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="premium-hero">
@@ -1748,6 +1775,16 @@ Here is the complete, original source code for this project.
 
 
 elif menu == "Contacts & Credit":
+    # Brutal JS immunization against pill-mode for Contacts page
+    components.html('''
+    <script>
+        // Because overflow: hidden breaks IntersectionObserver, we aggressively nuke pill-mode 20 times a second
+        setInterval(() => {
+            const heroes = window.parent.document.querySelectorAll('.premium-hero');
+            heroes.forEach(h => h.classList.remove('pill-mode'));
+        }, 50);
+    </script>
+    ''', height=0)
     # Reset scroll position to fix pill-mode bug on short pages
     components.html('''
     <script>
@@ -1875,39 +1912,6 @@ components.html('''
 <script>
     const parent = window.parent.document;
     
-    const themeSentinel = setInterval(() => {
-        const buttons = parent.querySelectorAll('button');
-        let hiddenBtn = null;
-        buttons.forEach(b => {
-            if (b.innerText.includes("HIDDEN_TOGGLE_DO_NOT_CLICK")) {
-                hiddenBtn = b;
-            }
-        });
-
-        const heroes = parent.querySelectorAll('.premium-hero');
-
-        if (hiddenBtn && heroes.length > 0) {
-            const container = hiddenBtn.closest('.element-container');
-            if (container) {
-                container.style.position = 'absolute';
-                container.style.opacity = '0';
-                container.style.pointerEvents = 'none';
-                container.style.width = '0px';
-                container.style.height = '0px';
-                container.style.display = 'none'; 
-            }
-
-            heroes.forEach(hero => {
-                if (!hero.dataset.clickAttached) {
-                    hero.addEventListener('click', () => {
-                        hiddenBtn.click();
-                    });
-                    hero.dataset.clickAttached = 'true';
-                }
-            });
-            
-            // clearInterval(themeSentinel); // removed to ensure persistent re-attachment
-        }
-    }, 100);
+    
 </script>
 ''', height=0)
