@@ -376,17 +376,19 @@ if st.session_state.theme == 'default':
 
     /* Hide redundant radio widget label ('Go to') */
     [data-testid="stSidebar"] [data-testid="stRadio"] > label[data-testid="stWidgetLabel"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] > label:first-child {
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label:first-child:not([data-baseweb="radio"]) {
         display: none !important;
     }
 
     /* Radio group layout */
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stRadioGroup"] {
+    [data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stRadioGroup"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[data-baseweb="radio-group"] {
         display: flex !important;
         flex-direction: column !important;
         gap: 10px !important;
         padding-top: 10px !important;
+        width: 100% !important;
     }
     
     /* Base glassmorphic card for every navigation item */
@@ -401,6 +403,8 @@ if st.session_state.theme == 'default':
         display: flex !important;
         align-items: center !important;
         width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
         margin-bottom: 0px !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
         position: relative !important;
@@ -421,14 +425,8 @@ if st.session_state.theme == 'default':
         border-color: rgba(0, 194, 255, 0.7) !important;
         box-shadow: 0 0 15px rgba(0, 194, 255, 0.25), inset 0 0 8px rgba(0, 194, 255, 0.15) !important;
     }
-    /* Active text highlight */
-    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] p,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p {
-        color: #00c2ff !important;
-        font-weight: 600 !important;
-    }
 
-    /* Hide native radio input and BaseWeb native marker elements */
+    /* Hide native radio input element */
     [data-testid="stSidebar"] [data-testid="stRadio"] label input[type="radio"] {
         position: absolute !important;
         opacity: 0 !important;
@@ -438,22 +436,78 @@ if st.session_state.theme == 'default':
         pointer-events: none !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > :not(:last-child) {
+    /* Hide native BaseWeb radio circle marker only (never hide the text container) */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has(p)):not(:has(span)),
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type:not(:has(p)):not(:has(span)) {
         position: absolute !important;
         opacity: 0 !important;
-        width: 0 !important;
-        height: 0 !important;
+        width: 0px !important;
+        height: 0px !important;
+        margin: 0 !important;
+        padding: 0 !important;
         pointer-events: none !important;
+        background: transparent !important;
+        border-color: transparent !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > :not(:last-child) * {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has(p)):not(:has(span)) * {
         background: transparent !important;
         border-color: transparent !important;
         box-shadow: none !important;
         fill: transparent !important;
         stroke: transparent !important;
         opacity: 0 !important;
+    }
+
+    /* Ensure text container is ALWAYS visible, full width, and properly positioned */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(p),
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(span),
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:last-child {
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        width: auto !important;
+        height: auto !important;
+        pointer-events: auto !important;
+        flex: 1 1 auto !important;
+        z-index: 2 !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] * {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Page names text styling: readable, crisp, and robust across all Streamlit versions */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p {
+        color: #f5f9ff !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        display: block !important;
+    }
+
+    /* Active text highlight */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] div[data-testid="stMarkdownContainer"] p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) div[data-testid="stMarkdownContainer"] p {
+        color: #00c2ff !important;
+        font-weight: 600 !important;
+        text-shadow: 0 0 10px rgba(0, 194, 255, 0.4) !important;
     }
 
     /* Custom empty circular ring for inactive options */
@@ -490,10 +544,6 @@ if st.session_state.theme == 'default':
         font-weight: 700;
         text-shadow: 0 0 12px rgba(0, 194, 255, 0.35);
         margin-bottom: 12px !important;
-    }
-
-    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p {
-        color: #f5f9ff !important;
     }
 
     @keyframes techPulse {
@@ -818,17 +868,19 @@ elif st.session_state.theme == 'stitch':
 
     /* Hide redundant radio widget label ('Go to') */
     [data-testid="stSidebar"] [data-testid="stRadio"] > label[data-testid="stWidgetLabel"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] > label:first-child {
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label:first-child:not([data-baseweb="radio"]) {
         display: none !important;
     }
 
     /* Radio group layout */
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stRadioGroup"] {
+    [data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stRadioGroup"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[data-baseweb="radio-group"] {
         display: flex !important;
         flex-direction: column !important;
         gap: 10px !important;
         padding-top: 10px !important;
+        width: 100% !important;
     }
     
     /* Base glassmorphic card for every navigation item */
@@ -843,6 +895,8 @@ elif st.session_state.theme == 'stitch':
         display: flex !important;
         align-items: center !important;
         width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
         margin-bottom: 0px !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
         position: relative !important;
@@ -864,14 +918,7 @@ elif st.session_state.theme == 'stitch':
         box-shadow: 0 0 15px rgba(255, 51, 102, 0.25), inset 0 0 8px rgba(255, 51, 102, 0.15) !important;
     }
 
-    /* Active text highlight */
-    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] p,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p {
-        color: #ff3366 !important;
-        font-weight: 600 !important;
-    }
-
-    /* Hide native radio input and BaseWeb native marker elements */
+    /* Hide native radio input element */
     [data-testid="stSidebar"] [data-testid="stRadio"] label input[type="radio"] {
         position: absolute !important;
         opacity: 0 !important;
@@ -881,22 +928,78 @@ elif st.session_state.theme == 'stitch':
         pointer-events: none !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > :not(:last-child) {
+    /* Hide native BaseWeb radio circle marker only (never hide the text container) */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has(p)):not(:has(span)),
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type:not(:has(p)):not(:has(span)) {
         position: absolute !important;
         opacity: 0 !important;
-        width: 0 !important;
-        height: 0 !important;
+        width: 0px !important;
+        height: 0px !important;
+        margin: 0 !important;
+        padding: 0 !important;
         pointer-events: none !important;
+        background: transparent !important;
+        border-color: transparent !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > :not(:last-child) * {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has(p)):not(:has(span)) * {
         background: transparent !important;
         border-color: transparent !important;
         box-shadow: none !important;
         fill: transparent !important;
         stroke: transparent !important;
         opacity: 0 !important;
+    }
+
+    /* Ensure text container is ALWAYS visible, full width, and properly positioned */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(p),
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(span),
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:last-child {
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        width: auto !important;
+        height: auto !important;
+        pointer-events: auto !important;
+        flex: 1 1 auto !important;
+        z-index: 2 !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] * {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Page names text styling: readable, crisp, and robust across all Streamlit versions */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p {
+        color: #f5f9ff !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        display: block !important;
+    }
+
+    /* Active text highlight */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] div[data-testid="stMarkdownContainer"] p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) div[data-testid="stMarkdownContainer"] p {
+        color: #ff3366 !important;
+        font-weight: 600 !important;
+        text-shadow: 0 0 10px rgba(255, 51, 102, 0.4) !important;
     }
 
     /* Custom empty circular ring for inactive options */
