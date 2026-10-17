@@ -1,2 +1,10 @@
-# Ignore large dataset files that exceed GitHub's 100MB limit
-*.csv
+# Gitignore modified to allow downsampled CSV files for hosting
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Large root dataset (downsampled file is preserved in data/)
+/previous_application.csv

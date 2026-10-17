@@ -15,7 +15,9 @@ import seaborn as sns
 pd.set_option("display.max_columns", None)
 
 #Read application csv
-app_data = pd.read_csv("application_data.csv")
+import os
+app_file = "data/application_data.csv" if os.path.exists("data/application_data.csv") else ("../data/application_data.csv" if os.path.exists("../data/application_data.csv") else "application_data.csv")
+app_data = pd.read_csv(app_file)
 app_data.head()
 
 #Data inspection on Application Dataset
@@ -299,7 +301,8 @@ plt.show()
 
 # --> Video-5 started <--
 #Read Previous Application CSV
-papp_data = pd.read_csv("previous_application.csv")
+papp_file = "data/previous_application.csv" if os.path.exists("data/previous_application.csv") else ("../data/previous_application.csv" if os.path.exists("../data/previous_application.csv") else "previous_application.csv")
+papp_data = pd.read_csv(papp_file)
 papp_data.head()
 
 #Data inspection on previous Application dataset
