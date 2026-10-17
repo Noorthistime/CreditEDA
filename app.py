@@ -438,10 +438,9 @@ if st.session_state.theme == 'default':
     }
 
     /* Hide native BaseWeb radio circle marker completely (removes extra red dot & native holes) */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child,
     [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[class*="st-"]:first-child,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has([data-testid="stMarkdownContainer"])),
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type:not(:has([data-testid="stMarkdownContainer"])) {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[class*="st-"]:first-child {
         display: none !important;
         position: absolute !important;
         opacity: 0 !important;
@@ -455,7 +454,8 @@ if st.session_state.theme == 'default':
         border-color: transparent !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has([data-testid="stMarkdownContainer"])) * {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child *,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child * {
         display: none !important;
         background: transparent !important;
         border-color: transparent !important;
@@ -466,9 +466,7 @@ if st.session_state.theme == 'default':
     }
 
     /* Ensure text container is ALWAYS visible, full width, and properly positioned */
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(p),
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(span),
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"],
     [data-testid="stSidebar"] [data-testid="stRadio"] label > div:last-child {
         position: relative !important;
         opacity: 1 !important;
@@ -938,10 +936,9 @@ elif st.session_state.theme == 'stitch':
     }
 
     /* Hide native BaseWeb radio circle marker completely (removes extra red dot & native holes) */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child,
     [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[class*="st-"]:first-child,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has([data-testid="stMarkdownContainer"])),
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type:not(:has([data-testid="stMarkdownContainer"])) {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[class*="st-"]:first-child {
         display: none !important;
         position: absolute !important;
         opacity: 0 !important;
@@ -955,7 +952,8 @@ elif st.session_state.theme == 'stitch':
         border-color: transparent !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child:not(:has([data-testid="stMarkdownContainer"])) * {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child *,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child * {
         display: none !important;
         background: transparent !important;
         border-color: transparent !important;
@@ -966,9 +964,7 @@ elif st.session_state.theme == 'stitch':
     }
 
     /* Ensure text container is ALWAYS visible, full width, and properly positioned */
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(p),
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:has(span),
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div[data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"],
     [data-testid="stSidebar"] [data-testid="stRadio"] label > div:last-child {
         position: relative !important;
         opacity: 1 !important;
