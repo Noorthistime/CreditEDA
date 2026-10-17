@@ -245,51 +245,117 @@ st.markdown("""
         pointer-events: none;
     }
 
-    /* Style the radio items as beautiful horizontal tabs/buttons */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding-top: 10px;
+    /* ========================================================
+       PREMIUM NAVIGATION PANEL (IMAGE 2 DESIGN)
+       ======================================================== */
+
+    /* Hide redundant radio widget label ('Go to') */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label[data-testid="stWidgetLabel"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label:first-child {
+        display: none !important;
+    }
+
+    /* Radio group layout */
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] [data-testid="stRadioGroup"] {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding-top: 10px !important;
     }
     
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label {
-        background: rgba(255, 255, 255, 0.05);
+    /* Base glassmorphic card for every navigation item */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] {
+        background: rgba(255, 255, 255, 0.05) !important;
         border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        padding: 12px 16px !important;
+        padding: 12px 16px 12px 46px !important;
         border-radius: 12px !important;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 0px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin-bottom: 0px !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+        position: relative !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
+    /* Hover effect for cards */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
         background: rgba(0, 194, 255, 0.08) !important;
         border-color: rgba(0, 194, 255, 0.4) !important;
-        transform: translateX(4px);
-        box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15);
+        transform: translateX(4px) !important;
+        box-shadow: 0 4px 12px rgba(0, 194, 255, 0.15) !important;
     }
 
-    /* Style for checked state */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label[data-checked="true"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label:has(input:checked) {
+    /* Active / Checked state card */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"],
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
         background: linear-gradient(135deg, rgba(0, 194, 255, 0.22), rgba(79, 70, 229, 0.24)) !important;
         border-color: rgba(0, 194, 255, 0.7) !important;
-        box-shadow: 0 0 15px rgba(0, 194, 255, 0.25), inset 0 0 8px rgba(0, 194, 255, 0.15);
+        box-shadow: 0 0 15px rgba(0, 194, 255, 0.25), inset 0 0 8px rgba(0, 194, 255, 0.15) !important;
     }
 
-    /* Hide the radio bullet circle to keep it modern and clean */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label > div:first-child {
-        display: none !important;
+    /* Active text highlight */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"] p,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) p {
+        color: #00c2ff !important;
+        font-weight: 600 !important;
     }
 
-    /* Hide redundant radio widget label */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
-        display: none !important;
+    /* Hide native radio input and BaseWeb native marker elements */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label input[type="radio"] {
+        position: absolute !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        pointer-events: none !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-of-type,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > :not(:last-child) {
+        position: absolute !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > :not(:last-child) * {
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        fill: transparent !important;
+        stroke: transparent !important;
+        opacity: 0 !important;
+    }
+
+    /* Custom empty circular ring for inactive options */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label::before {
+        content: "" !important;
+        position: absolute !important;
+        left: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 16px !important;
+        height: 16px !important;
+        border-radius: 50% !important;
+        border: 2px solid rgba(255, 255, 255, 0.4) !important;
+        background-color: transparent !important;
+        box-sizing: border-box !important;
+        transition: all 0.2s ease-in-out !important;
+        z-index: 10 !important;
+    }
+
+    /* Custom glowing cyan dot for active option */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label[data-checked="true"]::before,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked)::before {
+        border: 0px solid transparent !important;
+        background-color: #00c2ff !important;
+        background-image: radial-gradient(circle, #ffffff 32%, #00c2ff 36%) !important;
+        box-shadow: 0 0 12px rgba(0, 194, 255, 0.75) !important;
     }
 
     /* Typography fixes for sidebar header */
@@ -302,15 +368,8 @@ st.markdown("""
         margin-bottom: 12px !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p {
         color: #f5f9ff !important;
-    }
-
-    /* Keep the active cyan highlight in both modes */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label[data-checked="true"] *,
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label:has(input:checked) * {
-        color: #00c2ff !important;
-        font-weight: 600 !important;
     }
 
     @keyframes techPulse {
@@ -442,7 +501,7 @@ def render_explain_button(tab_name, explanation_text, technique=None):
     if st.session_state[btn_key]:
         st.markdown(f'<div style="background: rgba(0, 194, 255, 0.12); border-left: 4px solid #00c2ff; padding: 12px 16px; border-radius: 12px; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid rgba(0, 194, 255, 0.25);"><strong style="color: #00c2ff; font-size: 1.05em; display: block; margin-bottom: 6px;">Page Explanation:</strong><span style="color: var(--text-color); font-size: 0.95em; line-height: 1.5;">{explanation_text}</span></div>', unsafe_allow_html=True)
 
-st.sidebar.title("Navigation")
+st.sidebar.markdown("<h1 style='text-align: center; font-weight: 700; font-size: 2rem;'>Navigation</h1>", unsafe_allow_html=True)
 menu = st.sidebar.radio("Go to", ["Project Overview", "1. Data Cleaning & Binning", "2. Univariate Analysis", "3. Bivariate & Multivariate Analysis", "4. Full Code Explorer", "5. View Raw Source Code"])
 
 
